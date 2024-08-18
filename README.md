@@ -1951,3 +1951,117 @@
       return new Set<Integer>(nums).size() < nums.size();
   }
   ```
+
+## Maps
+
+### #83 - Employee Email
+
+- Problem
+
+  ```text
+  Given a string employeeId a map of string to string employeeIdToEmail that contains employee IDs as keys and the employee's email address as the value, return the email associated with the passed employeeId. If the employee ID is not found, return 'info@apexsandbox.io'.
+  ```
+
+- Solution
+
+  ```java
+  public String employeeEmail(Map<String, String> employeeIdToEmail, String employeeId) {
+      if (employeeIdToEmail.containsKey(employeeId)) {
+          return employeeIdToEmail.get(employeeId);
+      }
+      return 'info@apexsandbox.io';
+  }
+  ```
+
+### #84 - Phonebook
+
+- Problem
+
+  ```text
+  Implement the method phonebook that takes as input a list of Contacts, and returns a Map containing the full names as keys, and the contact's phone number as values. Do not include contacts without a phone number into the phonebook.
+  ```
+
+- Solution
+
+  ```java
+  public Map<String, String> phonebook(List<Contact> contacts) {
+      Map<String, String> res = new Map<String, String>();
+      for (Contact c: contacts) {
+          if (c.get('Phone') != null) {
+              res.put((String)c.get('Name'), (String)c.get('Phone'));
+          }
+      }
+      return res;
+  }
+  ```
+
+### #85 - Phone to Account
+
+- Problem
+
+  ```text
+  Implement the method phoneToAccount that takes as input a list of Accounts, and returns a Map containing the phone number as a key and the Account record as the value. Do not include accounts without a phone number.
+  ```
+
+- Solution
+
+  ```java
+  public Map<String, Account> phoneToAccount(List<Account> accounts) {
+      Map<String, Account> res = new Map<String, Account>();
+      for (Account acc: accounts) {
+          if (acc.get('Phone') != null) {
+              res.put((String)acc.get('Phone'), acc.clone());
+          }
+      }
+      return res;
+  }
+  ```
+
+### #86 - Industry Summary
+
+- Problem
+
+  ```text
+  The method industrySummary takes as input a list of accounts with Industry and AnnualRevenue fields populated. The method should sum up annual revenue by each industry and return a Map with each industry as a key, and sum of annual revenue for that industry as the value.
+  ```
+
+- Solution
+
+  ```java
+  public Map<String, Decimal> industrySummary(List<Account> accounts) {
+      Map<String, Decimal> res = new Map<String, Decimal>();
+      for (Account acc: accounts) {
+          String industry = (String) acc.Industry;
+          Decimal annualRevenue = (Decimal) acc.AnnualRevenue;
+          Decimal totalRevenue = res.get(industry) != null ? res.get(industry) : 0;
+          res.put(industry, annualRevenue + totalRevenue);
+      }
+      return res;
+  }
+  ```
+
+### #87 - Cases by Type
+
+- Problem
+
+  ```text
+  The method casesByType takes as input a list of cases and returns a Map> with case types (Type field on Case) as the keys, and a list of cases of that type as values. This map should not include cases with no Type specified.
+  ```
+
+- Solution
+
+  ```java
+  public Map<String, List<Case>> casesByType(List<Case> cases) {
+      Map<String, List<Case>> res = new Map<String, List<Case>>();
+      for (Case c: cases) {
+          if (c.get('Type') != null) {
+              String t = (String) c.get('Type');
+              if (!res.containsKey(t)) {
+                  res.put(t, new List<Case>());
+              }
+              res.get(t).add(c.clone());
+          }
+      }
+      return res;
+  }
+  ```
