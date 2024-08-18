@@ -1848,3 +1848,106 @@
       return secondmax;
   }
   ```
+
+## Sets
+
+### #76 - Union
+
+- Problem
+
+  ```text
+  A union between two sets A and B is a set that contains all elements from A and B. For example, the unions of sets {1, 5, 10} and {1, 3, 5} is {1, 3, 5, 10}.
+
+  Implement the method setUnion that takes as input two sets of integers set1 and set2 and returns the union of the two sets. The method should not modify the original sets.
+  ```
+
+- Solution
+
+  ```java
+  public Set<Integer> setUnion(Set<Integer> set1, Set<Integer> set2) {
+      Set<Integer> union = new Set<Integer>(set1);
+      for (Integer num: set2) {
+          union.add(num);
+      }
+      return union;
+  }
+  ```
+
+### #77 - Intersection
+
+- Problem
+
+  ```text
+  An intersection between two sets A and B is a set that contains all elements present in both A and B. For example, the intersection of sets {1, 5, 10} and {1, 3, 5} is {1, 5}, since 1 and 5 are the only two elements present in both sets.
+
+  Implement the method setIntersection that takes as input two sets of integers set1 and set2 and returns the intersection of the two sets. The method should not modify the original sets.
+  ```
+
+- Solution
+
+  ```java
+  public Set<Integer> setIntersection(Set<Integer> set1, Set<Integer> set2) {
+      Set<Integer> intersection = new Set<Integer>(set1);
+      intersection.retainAll(set2);
+      return intersection;
+  }
+  ```
+
+### #82 - Related Accounts
+
+- Problem
+
+  ```text
+  Implement the method accountIds that takes as input a list of Opportunity records, and returns a set containing IDs of related accounts.
+  ```
+
+- Solution
+
+  ```java
+  public Set<Id> accountIds(List<Opportunity> opps) {
+      Set<Id> ids = new Set<Id>();
+      for (Opportunity o: opps) {
+          if (o.AccountId != null)
+              ids.add(o.AccountId);
+      }
+      return ids;
+  }
+  ```
+
+### #81 - Same Elements
+
+- Problem
+
+  ```text
+  Implement the method sameElements that takes as input two lists of integers nums1 and nums2, and returns true if and only if every integer in one of the lists is also contained by the other list. This means that for sameElements to return true, there should be no integer in nums1 that is not present in nums2, and no integer in nums2 that is not present in nums1.
+
+  Note that the lists may contain duplicates and your solution should assume no specific ordering.
+  ```
+
+- Solution
+
+  ```java
+  public Boolean sameElements(List<Integer> nums1, List<Integer> nums2) {
+      Set<Integer> set1 = new Set<Integer>(nums1);
+      set1.removeAll(nums2);
+      Set<Integer> set2 = new Set<Integer>(nums2);
+      set2.removeAll(nums1);
+      return set1.size() == 0 && set2.size() == 0;
+  }
+  ```
+
+### #80 - Duplicate Integers
+
+- Problem
+
+  ```text
+  Implement the method containsDuplicates that takes as input a list of integers, returns true if the list has more than one occurence of the same number, and returns false if every element in the list is unique.
+  ```
+
+- Solution
+
+  ```java
+  public Boolean containsDuplicates(List<Integer> nums) {
+      return new Set<Integer>(nums).size() < nums.size();
+  }
+  ```
