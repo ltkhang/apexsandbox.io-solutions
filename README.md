@@ -1,5 +1,9 @@
 # Solution for problems on Apexsandbox.io
 
+31,000 points
+
+Top 1%
+
 # Table of content
 
  1. [Apex 101](#apex-101)
