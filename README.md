@@ -1237,3 +1237,217 @@
       }
   }
   ```
+
+## SObjects
+
+### #56 - Duplicate Contacts
+
+- Problem
+
+  ```text
+  For this problem, we consider two Contacts as duplicates if they have the same phone number or the same email address.
+
+  Implement the method duplicateContacts that takes as input two Contact records c1 and c1, returns true if they are duplicates, and returns false otherwise.
+
+  For example, given the following test data:
+
+  Contact c1 = new Contact(LastName = 'Doe', Email = 'robert@example.com');
+  Contact c2 = new Contact(LastName = 'Doe', Email = 'robert.doe@example.com');
+  duplicateContacts(c1, c2) == false because the two contacts do not have a phone number at all, and do not have a matching email address.
+  ```
+
+- Solution
+
+  ```java
+  public Boolean duplicateContacts(Contact c1, Contact c2) {
+      Boolean isMatchPhone = false;
+      if (c1.Phone != null && c2.Phone != null) {
+          isMatchPhone = c1.Phone == c2.Phone;
+      }
+      Boolean isMatchEmail = false;
+      if (c1.Email != null && c2.Email != null) {
+          isMatchEmail = c1.Email == c2.Email;
+      }
+      return isMatchPhone || isMatchEmail;
+  }
+  ```
+
+### #57 - Account Rating
+
+- Problem
+
+  ```text
+  Implement a method setAccountRating that looks at an Account's AnnualRevenue, and sets the value of the Rating picklist field based on the following criteria:
+
+  Accounts with AnnualRevenue less than or equal to 100,000 get a rating of "Cold"
+  Accounts with AnnualRevenue less than or equal to 500,000 but greater than 100,000 get a rating of "Warm"
+  Accounts with AnnualRevenue greater than 500,000 get a rating of "Hot"
+  Given the following test code:
+
+  Account a = new Account(AnnualRevenue = 150000);
+  setAccountRating(a);
+  The expression a.Rating == 'Warm' should be true because the AnnualRevenue was over 100,000 but less than 500,000
+  ```
+
+- Solution
+
+  ```java
+  public void setAccountRating(Account a) {
+      Decimal annualRevenue = a.AnnualRevenue;
+      if (annualRevenue <= 100000) {
+          a.Rating = 'Cold';
+      } else if (annualRevenue <= 500000) {
+          a.Rating = 'Warm';
+      } else {
+          a.Rating = 'Hot';
+      }
+  }
+  ```
+
+### #59 - Contact Birthday
+
+- Problem
+
+  ```text
+  Given a Contact with the Birthdate field set to some date, return true if today is the Contact's birthday and return false if not. Assume that a future date will not be set on the Birthdate field.
+
+  Given the following test code:
+
+  Contact c1 = new Contact();
+  c1.Birthdate = Date.newInstance(1992, 5, 15)
+  The expression isBirthday(c1) should return true if executed on 5/15/2022 or 5/15/2020.
+  ```
+
+- Solution
+
+  ```java
+  public Boolean isBirthday(Contact c) {
+      if (c == null || c.BirthDate == null) return false;
+      Date today = System.today();
+      return c.BirthDate.day() == today.day() && c.BirthDate.month() == today.month();
+  }
+  ```
+
+### #60 - Key Account
+
+- Problem
+
+  ```text
+  For this problem, we define minimum annual revenue thresholds an account must meet to be considered a key account. The annual revenue thresholds are defined by industry:
+
+  Banking: 600,000
+  Technology: 800,000
+  Retail: 2,000,000
+  All others: 500,000
+  Implement the method isKeyAccount that takes as input an Account with the AnnualRevenue field and the Industry picklist fields filled out, returns true if the account is a key account, and returns false otherwise.
+
+  Account a1 = new Account();
+  a1.AnnualRevenue = 750000;
+  a1.Industry = 'Technology';
+  The expression isKeyAccount(a1) should return false because the annual revenue does not meet the minimum threshold of 800,000 for the technology industry.
+  ```
+
+- Solution
+
+  ```java
+  public Boolean isKeyAccount(Account a) {
+      Map<String, Decimal> thresholdMap = new Map<String, Decimal>();
+      thresholdMap.put('Banking', 600000);
+      thresholdMap.put('Technology', 800000);
+      thresholdMap.put('Retail', 2000000);
+      Decimal threshold = thresholdMap.get(a.Industry);
+      threshold = threshold == null ? 500000 : threshold;
+      return a.AnnualRevenue >= threshold;
+  }
+  ```
+
+### #61 - Escalate Case
+
+- Problem
+
+  ```text
+  In-progress cases dealing with mechanical or electrical breakdown need to be escalated. Implement a method escalateIfMeetsCriteria that takes as input a Case record, and sets the IsEscalated field to true if Type is Mechanical or Electrical, Reason is Breakdown, and Status is In Progress
+  ```
+
+- Solution
+
+  ```java
+  public void escalateIfMeetsCriteria(Case c) {
+      c.IsEscalated = (c.Type == 'Mechanical' || c.Type == 'Electrical' || c.Type == 'Electronic') && c.Reason == 'Breakdown' && c.Status == 'In Progress';
+  }
+  ```
+
+### #63 - Same Parent
+
+- Problem
+
+  ```text
+  Implement the method sameParent that takes as input an opportunity opp and a contact c, and returns true if both the opportunity and contact have the same parent account.
+  ```
+
+- Solution
+
+  ```java
+  public Boolean sameParent(Contact c, Opportunity opp) {
+      if (c.AccountId == null || opp.AccountId == null) return false;
+      return c.AccountId == opp.AccountId;
+  }
+  ```
+
+### #64 - Same Parent II
+
+- Problem
+
+  ```text
+  Implement the method sameParent that takes as input an account acc, a contact con, and an opportunity opp and returns true if both the opportunity and contact have the given account as the parent.
+  ```
+
+- Solution
+
+  ```java
+  public Boolean sameParent(Account acc, Contact con, Opportunity opp) {
+      if (acc.Id == null) return false;
+      if (con.AccountId == null || opp.AccountId == null) return false;
+      return acc.Id == con.AccountId && acc.Id == opp.AccountId && con.AccountId == opp.AccountId;
+  }
+  ```
+
+### #66 - Set Parent Account
+
+- Problem
+
+  ```text
+  Implement the method setParent that takes as input an account acc, a contact con, and an opportunity opp and sets the account is the parent for both the opportunity and contact. Make sure to not take any action if the provided account or its Id is null.
+  ```
+
+- Solution
+
+  ```java
+  public void setParent(Account acc, Contact con, Opportunity opp) {
+      if (acc == null || acc.Id == null) return;
+      con.AccountId = acc.Id;
+      opp.AccountId = acc.Id;
+  }
+  ```
+
+### #67 - Set Parent Case
+
+- Problem
+
+  ```text
+  Implement the method linkParent that takes as input two cases c1 and c2, and sets the case created first as the parent of the case created later only if both cases look up to the same Contact. Ensure to handle the special case where the cases do not have any related contacts.
+  ```
+
+- Solution
+
+  ```java
+  public void linkParent(Case c1, Case c2) {
+      if (c1 == null || c1.ContactId == null || c2 == null || c2.ContactId == null) return;
+      if (c1.ContactId != c2.ContactId) return;
+      if (c1.CreatedDate < c2.CreatedDate) {
+          c2.ParentId = c1.Id;
+      } else if (c1.CreatedDate > c2.CreatedDate) {
+          c1.ParentId = c2.Id;
+      }
+  }
+  ```
