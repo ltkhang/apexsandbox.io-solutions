@@ -1451,3 +1451,400 @@
       }
   }
   ```
+
+## Lists
+
+### #92 - Sorting a List
+
+- Problem
+
+  ```text
+  Implement the method getNamesInAscOrder(), which accepts a list of fullnames as input and returns the list sorted in ascending order. Use the standard library method to sort.
+  ```
+
+- Solution
+
+  ```java
+  public List<String> getNamesInAscOrder(List<String> accountNames)
+  {
+      if (accountNames == null) return null;
+      accountNames.sort();
+      return accountNames;
+  }
+  ```
+
+### #1 - Array Sum
+
+- Problem
+
+  ```text
+  Implement the method arraySum that takes as input a non-empty list of Integers numbers, and returns the sum of all numbers in the list.
+  ```
+
+- Solution
+
+  ```java
+  public static Integer arraySum(List<Integer> numbers) {
+      Integer sum = 0;
+      for (Integer num: numbers) {
+          sum += num;
+      }
+      return sum;
+  }
+  ```
+
+### #138 - Count Target in List
+
+- Problem
+
+  ```text
+  Given a list of Integers nums and an Integer target, count number of times target is found in nums. If the target is not in the list, simply return 0.
+  ```
+
+- Solution
+
+  ```java
+  public Integer findTargetCount(List<Integer> nums, Integer target) {
+      Integer appearanceCount = 0;
+      for (Integer num: nums) {
+          if (target == num) appearanceCount += 1;
+      }
+      return appearanceCount;
+  }
+  ```
+
+### #139 - Last Occurrence
+
+- Problem
+
+  ```text
+  Find the last occurrence of Integer target in a list of integers nums and return its index. If the target is not found, return -1
+
+  For instance, in the list of integers {4, 6, 1, 9, 7, 9, 2}, the function would return index 0 for the target 4, index 5 for target 9 (occurs twice), and -1 for target 3 (not found).
+  ```
+
+- Solution
+
+  ```java
+  public static Integer findLast(List<Integer> nums, Integer target) {
+    Integer index = -1;
+    for (Integer i = 0; i < nums.size(); i++) {
+        if (nums[i] == target) index = i;
+    }
+    return index;
+  }
+  ```
+
+### #70 - Even Numbers
+
+- Problem
+
+  ```text
+  Given a non-zero positive integer n, return a list of the first n non-zero positive even numbers, ordered ascending.
+
+  Example: evenNumbers(5) returns a list containing the numbers 2, 4, 6, 8, 10.
+  ```
+
+- Solution
+
+  ```java
+  public List<Integer> evenNumbers(Integer n) {
+      List<Integer> results = new List<Integer>();
+      for (Integer i = 2; i <= 2 * n; i+=2) {
+          results.add(i);
+      }
+      return results;
+  }
+  ```
+
+### #2 - Largest Element
+
+- Problem
+
+  ```text
+  Implement the method findLargest that takes as input a non-empty list of Integers nums, and returns the largest Integer in the list.
+
+  Example: findLargest(new List {5, 2, 8, 4, 2, 1}) evaluates to 8 because 8 is the largest Integer in the list.
+  ```
+
+- Solution
+
+  ```java
+  public static Integer findLargest(List<Integer> nums) {
+      Integer max = nums[0];
+      for (Integer num: nums) {
+          if (num > max) max = num;
+      }
+      return max;
+  }
+  ```
+
+### #71 - Positive Integers
+
+- Problem
+
+  ```text
+  A positive integer is defined as an integer greater than zero. Implement the method positiveIntegers that takes as input a list of integers numbers, and returns a new list with non-positive integers removed.
+
+  Example: positiveIntegers(new List {2, -3, 6, 2}) returns a list containing the numbers 2, 6, 2.
+  ```
+
+- Solution
+
+  ```java
+  public List<Integer> positiveIntegers(List<Integer> numbers) {
+      List<Integer> results = new List<Integer>();
+      for (Integer num: numbers) {
+          if (num > 0) results.add(num);
+      }
+      return results;
+  }
+  ```
+
+### #119 - Consecutive Ones
+
+- Problem
+
+  ```text
+  Given a List of Integers containing only binary numbers (0 and 1), return the maximum number of consecutive 1s appearing in the List.
+  ```
+
+- Solution
+
+  ```java
+  public Integer maxConsecutiveOnes(Integer[] numbers) {
+      Integer maxAppearanceCount = 0;
+      Integer curAppearance = 0;
+      numbers.add(0);
+      for (Integer num: numbers) {
+          if (num == 0) {
+              maxAppearanceCount = curAppearance > maxAppearanceCount ? curAppearance : maxAppearanceCount;
+              curAppearance = 0;
+          } else {
+              curAppearance += 1;
+          }
+      }
+      return maxAppearanceCount;
+  }
+  ```
+
+### #136 - Number Average
+
+- Problem
+
+  ```text
+  Given a list of decimals, return the average rounded to two decimal places.
+  ```
+
+- Solution
+
+  ```java
+  public Decimal average(List<Decimal> numbers){
+      Integer numberCount = numbers.size();
+      if (numberCount == 0) return 0;
+      Decimal sum = 0;
+      for (Decimal num: numbers) sum += num;
+      return (sum / numberCount).setScale(2);
+  }
+  ```
+
+### #111 - Insert at Beginning
+
+- Problem
+
+  ```text
+  Implement a method that would take an element and a List of elements as arguments and return the same List with the element inserted at the 0th position.
+  ```
+
+- Solution
+
+  ```java
+  public void insertAtStart(String cityName, List<String> cities) {
+      if (cities == null) return;
+      if (cities.size() == 0) { cities.add(cityName); return; }
+      String firstItem = cities[0];
+      cities.add('');
+      cities[0] = cityName;
+      for (Integer i = 1; i < cities.size(); i++){
+          String tmp = cities[i];
+          cities[i] = firstItem;
+          firstItem = tmp;
+      }
+  }
+  ```
+
+### #72 - Full Names
+
+- Problem
+
+  ```text
+  Implement the method fullNames that takes as input two equal-sized lists of strings firstNames and lastNames, and returns a new list containing full names, with each full name generated by the concatenating the first name and last name at the corresponding location in the input lists.
+  ```
+
+- Solution
+
+  ```java
+  public List<String> fullNames(List<String> firstNames, List<String> lastNames) {
+      List<String> fullNames = new List<String>();
+      for (Integer i = 0; i < firstNames.size(); i++) {
+          fullNames.add(firstNames[i] + ' ' + lastNames[i]);
+      }
+      return fullNames;
+  }
+  ```
+
+### #55 - Companion Plants 2
+
+- Problem
+
+  ```text
+  Some plants are considered companion plants. They grow better when planted next to each other. For the purpose of this problem, we consider the following plants to be companions: lettuce and cucumbers, lettuce and onions, onions and carrots, and onions and tomatoes. The same plants planted next to each other are not considered companions.
+
+  Write a function isCompanion that takes as input a list of plants being planted in a row. Return true only if every plant in the list is planted next to a companion and return false otherwise.
+
+  companionPlants(new List { 'onions', 'lettuce', 'onions', 'carrots', 'onions', 'lettuce', 'cucumbers'}) = true
+
+  companionPlants(new List { 'lettuce', 'onions', 'carrots', 'lettuce', 'cucumbers'}) = false. We have non-companion plants carrots and lettuce planted together
+  ```
+
+- Solution
+
+  ```java
+  public Boolean companionPlants(List<String> plants) {
+      if (plants.size() == 0) return true;
+      if (plants.size() == 1) return false;
+      Map<String, String> companionMap = new Map<String, String>();
+      companionMap.put('lettuce', 'cucumbers');
+      companionMap.put('cucumbers','lettuce');
+      companionMap.put('lettuce', 'onions');
+      companionMap.put('onions','lettuce');
+      companionMap.put('onions','carrots');
+      companionMap.put('carrots', 'onions');
+      companionMap.put('onions','tomatoes');
+      companionMap.put('tomatoes', 'onions');
+      Boolean isCompanion = true;
+      for (Integer i = 1; i < plants.size(); i++) {
+          if (companionMap.get(plants[i]) != plants[i - 1]) {
+              isCompanion = false;
+              break;
+          }
+      }
+      return isCompanion;
+  }
+  ```
+
+### #69 - Fibonacci Series
+
+- Problem
+
+  ```text
+  The first two numbers in the fibonacci sequence are 1, and all other numbers in the sequence are defined as the sum of the two preceding fibonacci numbers. The first 10 numbers in the fibonacci sequence are 1, 1, 2, 3, 5, 8, 13, 21, 34, and 55.
+
+  Given a non-zero positive integer n, return a list of integers of size n containing (in correct order) the first n numbers in the fibonacci series.
+
+  Example: fibonacciSeries(5) returns a list containing the numbers 1, 1, 2, 3, and 5.
+  ```
+
+- Solution
+
+  ```java
+  public List<Integer> fibonacciSeries(Integer n) {
+      List<Integer> results = new List<Integer>();
+      if (n == 0) return results;
+      if (n == 1) {
+          results.add(1);
+          return results;
+      }
+      if (n == 2) {
+          results.add(1);
+          results.add(1);
+          return results;
+      }
+      results.add(1);
+      results.add(1);
+      for (Integer i = 2; i < n; i++) {
+          results.add(results[i - 1] + results[i - 2]);
+      }
+      return results;
+  }
+  ```
+
+### #74 - Org Names
+
+- Problem
+
+  ```text
+  Some Salesforce orgs (Trailhead playground orgs, for example) are given random names that include a combination of an adjective and an animal as a prefix. For instance, cunning-impala, curious-raccoon, and brave-hawk are possible prefixes for names for such orgs.
+
+  Implement the method generateOrgNames that takes as input two lists of strings adjectives and animals, and returns a list of strings containing all org name prefixes that can be formed by combining the adjectives and animals. Assume that the input lists will never be empty
+  ```
+
+- Solution
+
+  ```java
+  public List<String> orgNames(List<String> adjectives, List<String> animals) {
+      List<String> results = new List<String>();
+      for (String adj: adjectives) {
+          for (String animal: animals) {
+              results.add(adj + '-' + animal);
+          }
+      }
+      return results;
+  }
+  ```
+
+### #73 - Sorted List
+
+- Problem
+
+  ```text
+  A list is considered to be sorted ascending when no element in the list is smaller than the preceding element if one is present. Similarly, a list is considered sorted descending if no element in the list is larger than the preceding element if any.
+
+  Implement the method isSorted that takes as input a list of integers numbers, returns true if the list is sorted in any direction (acsending or descending), and returns false otherwise.
+
+  Example: isSorted(new List<Integer> {5, 2, 0, -1}) evaluates to true because the input list is sorted descending.
+  ```
+
+- Solution
+
+  ```java
+  public boolean isSorted(List<Integer> numbers) {
+      Boolean isAsc = true;
+      Boolean isDesc = true;
+      for (Integer i = 0; i < numbers.size() - 1; i++) {
+          if (numbers[i] > numbers[i + 1]) isAsc = false;
+          if (numbers[i] < numbers[i + 1]) isDesc = false;
+      }
+      return isAsc || isDesc;
+  }
+  ```
+
+### #68 - Second Largest Element
+
+- Problem
+
+  ```text
+  Given an list of Integers numbers, return the second largest integer in the list. Assume that the input list will always contain at least two distinct integers.
+
+  Example: secondLargest(new List {5, 2, 8, 4, 8, 1}) evaluates to 5 because 5 is the second largest Integer in the array, with 8 being the largest integer.
+
+  Note: While not necessary to solving this problem, it may be be helpful to know the smallest possible Integer: -2,147,483,648. However, you cannot set an integer directly to this value because of a bug in Apex, but you can do the following:
+
+  Integer num = -2147483647 - 1;
+  ```
+
+- Solution
+
+  ```java
+  public Integer secondLargest(List<Integer> numbers) {
+      Integer max = numbers[0];
+      for (Integer num: numbers) {
+          if (num > max) max = num;
+      }
+      Integer secondmax = -2147483647 - 1;
+      for (Integer num: numbers) {
+          if (num > secondmax && num < max) secondmax = num;
+      }
+      return secondmax;
+  }
+  ```
