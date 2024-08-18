@@ -2065,3 +2065,753 @@
       return res;
   }
   ```
+
+## Data Structures & Algorithms
+
+### #117 - Implement A Stack
+
+- Problem
+
+  ```text
+  The stack is one of the simplest data structures and almost one of the most important in programing. We use a stack to organize objects with the Last In - First Out (LIFO) principle. A user may add to the stack at any time, but may only have access to the object that was last inserted into the stack.
+
+  In this challenge you will implement a stack data structure with the following methods.
+
+  Push : add an object to the top of the stack
+  Pop: remove the object at the top of the stack
+  Peek: return the object at the top of the stack but do not remove
+  Size: return the number of objects in the stack
+  Is Empty: return true is the stack is empty, false if not
+  ```
+
+- Solution
+
+  ```java
+  public class Stack {
+
+      private List<Object> stack = new List<Object>();
+      public void push(Object obj) {
+          //implement push
+          this.stack.add(obj);
+      }
+
+      public Object pop() {
+          //implement pop
+          if (this.stack.size() == 0) return null;
+          Object item = this.stack[this.stack.size() - 1];
+          this.stack.remove(this.stack.size() - 1);
+          return item;
+      }
+
+      public Integer size() {
+          //implement size
+          return this.stack.size();
+      }
+
+      public Object peek(){
+          //implement peek
+          if (this.stack.size() == 0) return null;
+          return this.stack[this.stack.size() - 1];
+      }
+
+      public Boolean isEmpty() {
+          //implement isEmpty
+          return this.stack.size() == 0;
+      }
+  }
+  ```
+
+### #121 - Implement A Singly Linked List
+
+- Problem
+
+  ```text
+  Implement a Linked List
+  A linked list a fundamental data structure in computer science. Linked data structures are used in heaps, graphs and trees.
+
+  In this problem you need to implement a basic singly linked list. You are given a class and basic method signatures as well as a Node class. You will need to implement the following...
+
+  A constructor to set the initial state of the class
+  The method addToFront() it accepts an integer and puts it at the front of the list. This should be a constant time operation.
+  the method removeFromFront(). This removes the element at the front of the list and returns its value. It should be a constant time operation. If the list is empty return null
+  The method size(). This should return the current size of the list
+  The method addToTail(). This adds an element to the end of the list. See if you can find a way to do it in constant time as a challenge
+  The method removeFromTail(). Remove the last element in the list and return its value. If the list is empty return null
+  ```
+
+- Solution
+
+  ```java
+  public class LinkedList{
+      private Node root;
+      private Node tail;
+      private Integer sz = 0;
+
+      public void addToFront(Integer value) {
+          Node n = new Node();
+          n.data = value;
+          if (this.sz == 0) {
+              this.root = n;
+              this.tail = n;
+          } else {
+              n.next = this.root;
+              this.root = n;
+          }
+          this.sz += 1;
+      }
+
+      public Integer removeFromFront() {
+          if (this.sz == 0) return null;
+          Integer value = this.root.data;
+          this.root = this.root.next;
+          if (this.root == null) {
+              this.tail = null;
+          }
+          this.sz -= 1;
+          return value;
+      }
+
+      public void addToTail(Integer value){
+          Node next = new Node();
+          next.data = value;
+          if (this.tail == null) {
+              this.tail = next;
+          } else {
+              this.tail.next = next;
+              this.tail = next;
+          }
+          if (this.root == null) {
+              this.root = this.tail;
+          }
+          this.sz += 1;
+      }
+
+      public Integer removeFromTail(){
+          if (this.sz == 0) return null;
+          Integer value = this.tail.data;
+          if (this.sz == 1) {
+              this.root = null;
+              this.tail = null;
+          } else if (this.sz == 2) {
+              this.root.next = null;
+              this.tail = this.root;
+          } else if (this.sz == 3) {
+              this.tail = this.root.next;
+              this.tail.next = null;
+          } else {
+              Node n = this.root;
+              while (n.next != null && n.next.next != null) {
+                  n = n.next;
+              }
+              this.tail = n;
+              this.tail.next = null;
+          }
+          this.sz -= 1;
+          return value;
+      }
+
+      public Integer size(){
+          return this.sz;
+      }
+  }
+
+  public class Node{
+      Integer data;
+      Node next;
+  }
+  ```
+
+### #89 - Valid Palindrome
+
+- Problem
+
+  ```text
+  A String is a considered a valid palindrome if it reads the same forwards and backwards. For the purpose of this problem, we consider a String to be a valid palindrome if it reads the same forwards and backwards after after converting all characters to lowercase, and removing all characters that are not a number or a letter.
+
+  Given a String str, return true if is a valid palindrome given the definition above, and return false if it is not. Assume that the input will contain only English numbers and letters (0-9, a-z, A-Z) along with punctuation and spaces.
+  ```
+
+- Solution
+
+  ```java
+  public Boolean isPalindrome(String str){
+      str = str.toLowerCase();
+      Pattern nonAlphanumeric = Pattern.compile('[^a-zA-Z0-9]');
+      Matcher matcher = nonAlphanumeric.matcher(str);
+      str = matcher.replaceAll('');
+      Integer l = 0;
+      Integer r = str.length() - 1;
+      while (l < r) {
+          if (str.charAt(l) != str.charAt(r)) return false;
+          l++;
+          r--;
+      }
+      return true;
+  }
+  ```
+
+### #120 - Merge Two Sorted Lists
+
+- Problem
+
+  ```text
+  A classic computer science problem is to merge to sorted lists. In this problem you must write a method that accepts two sorted lists of integers: list1, and list2 and returns a list sorted in ascending order containing all the values in list1 and lis2.
+  ```
+
+- Solution
+
+  ```java
+  public static List<Integer> mergeLists(List<Integer> list1, List<Integer> list2){
+      Integer i = 0, j = 0;
+      Integer l1 = list1.size();
+      Integer l2 = list2.size();
+      List<Integer> res = new List<Integer>();
+      while (i < l1 || j < l2) {
+          if (i >= l1) {
+              res.add(list2[j]);
+              j++;
+              continue;
+          }
+          if (j >= l2) {
+              res.add(list1[i]);
+              i++;
+              continue;
+          }
+          if (list1[i] < list2[j]) {
+              res.add(list1[i]);
+              i++;
+          } else {
+              res.add(list2[j]);
+              j++;
+          }
+      }
+      return res;
+  }
+  ```
+
+### #114 - Binary Search Opportunites
+
+- Problem
+
+  ```text
+  Given a list of opportunities sorted by the Amount field and an Integer target, implement a solution to search the list and return the index of the opportunity with an amount that is equal to the target.
+
+  In the list does not contain a matching value return negative 1.
+  ```
+
+- Solution
+
+  ```java
+  public static Integer search(List<Opportunity> opportunities, Integer target){
+      Integer l = 0;
+      Integer r = opportunities.size() - 1;
+      Integer m;
+      while (l <= r) {
+          m = (l + r) / 2;
+          if (opportunities[m].Amount == target) {
+              return m;
+          }
+          if (opportunities[m].Amount > target) {
+              r = m - 1;
+          } else {
+              l = m + 1;
+          }
+      }
+      return -1;
+  }
+  ```
+
+### #104 - Valid Anagram
+
+- Problem
+
+  ```text
+  Two words are considered valid anagrams if they are composed of the exact same letters with the exact same frequency. Implement the method isAnagram that takes as input two strings s1 and s2, and returns true if the two words are anagrams. Assume that the two strings contain only lowercase alphabets a-z.
+  ```
+
+- Solution
+
+  ```java
+  public boolean isAnagram(String s1, String s2) {
+      if (s1 == null || s2 == null) return false;
+      if (s1.length() != s2.length()) return false;
+      Map<Integer, Integer> f = new Map<Integer, Integer>();
+      for (Integer i = 0; i < s1.length(); i++) {
+          Integer c = s1.charAt(i);
+          if (!f.containsKey(c)) {
+              f.put(c, 0);
+          }
+          f.put(c, f.get(c) + 1);
+      }
+      for (Integer i = 0; i < s2.length(); i++) {
+          Integer c = s2.charAt(i);
+          if (!f.containsKey(c)) {
+              return false;
+          }
+          f.put(c, f.get(c) - 1);
+      }
+      Set<Integer> keys = f.keySet();
+      for (Integer key: keys) {
+          if (f.get(key) != 0) {
+              return false;
+          }
+      }
+      return true;
+  }
+  ```
+
+### #125 - Add One
+
+- Problem
+
+  ```text
+  A large integer number is given as a List of Integers from 0 to 9. You have to add 1 to that number and modify the list to represent the resulting number.
+  ```
+
+- Solution
+
+  ```java
+  public void plusOne(List<Integer> numbers) {
+      Integer m = 0;
+      Integer n = numbers.size() - 1;
+      numbers[n] += 1;
+      for (Integer i = n; i >= 0; i--) {
+          numbers[i] += m;
+          if (numbers[i] >= 10) {
+              m = 1;
+              numbers[i] = Math.mod(numbers[i], 10);
+          } else {
+              m = 0;
+              break;
+          }
+      }
+      if (m == 1) {
+          numbers.add(0);
+          for (Integer i = 1; i < numbers.size(); i++) {
+              numbers[i] = numbers[i - 1];
+          }
+          numbers[0] = 1;
+      }
+  }
+  ```
+
+### #112 - Valid Subsequence
+
+- Problem
+
+  ```text
+  Given a method that takes two strings s1 and s2 return true if s1 is a subsequence of s2.
+
+  A valid subsequence means that string s1 can be formed from string s2 by deleting some characters, but maintaining the order.
+  ```
+
+- Solution
+
+  ```java
+  public Boolean isSubSequence(String s1, String s2){
+      Integer i = 0, j = 0;
+      while (i < s1.length() && j < s2.length()) {
+          if (s1.charAt(i) == s2.charAt(j)) {
+              i += 1;
+          }
+          j += 1;
+      }
+      if (i == s1.length()) {
+          return true;
+      }
+      return false;
+  }
+  ```
+
+### #91 - Reverse Words In String
+
+- Problem
+
+  ```text
+  Given a string that contains a sequence of words separated by spaces, write a method that reverses the order of the characters in each word.
+  You must maintain white space and the order of the words.
+  ```
+
+- Solution
+
+  ```java
+  public static String reverseWords(String str){
+      List<String> words = str.split(' ');
+      for (Integer i = 0; i < words.size(); i++) {
+          words[i] = words[i].reverse();
+      }
+      return String.join(words, ' ');
+  }
+  ```
+
+### #99 - Buy Low and Sell High
+
+- Problem
+
+  ```text
+  You are given a list of integers that represent the daily closing price of a stock. Write a program to maximize your profit by choosing the best day to buy and the best to sell. price.get(i) represents the stock price on a given day i.
+
+  Return the maximum profit. If no profit is possible return 0. You should be able to solve this in O(n) time.
+
+  You may assume the maximum price for this problem is 10000
+  ```
+
+- Solution
+
+  ```java
+  public Integer maxProfit(List<Integer> prices){
+      Integer profit = 0;
+      if (prices.size() == 0) return 0;
+      Integer lowestPrices = prices[0];
+      for (Integer i = 1; i < prices.size(); i++) {
+          profit = Math.max(profit, prices[i] - lowestPrices);
+          lowestPrices = Math.min(lowestPrices, prices[i]);
+      }
+      return profit;
+  }
+  ```
+
+### #115 - Square a sorted list
+
+- Problem
+
+  ```text
+  Given a list of integers sorted in ascending order return a list of integers that contains the square of each value in the input list sorted in ascending order.
+  ```
+
+- Solution
+
+  ```java
+  public static List<Integer> squareList(List<Integer> nums){
+      if (nums == null) return null;
+      List<Integer> sqNums = new List<Integer>();
+      for (Integer num: nums) {
+          sqNums.add(num * num);
+      }
+      sqNums.sort();
+
+      return sqNums;
+  }
+  ```
+
+### #124 - Segregate Even and Odd numbers
+
+- Problem
+
+  ```text
+  Given a List of Integers (List<Integer>), write a function that segregates even and odd numbers. The function should put all even numbers first, and then odd numbers.
+
+  You are required to modify the list that is passed. Try doing so without creating any extra lists, which would mean an O(1) space complexity.
+  ```
+
+- Solution
+
+  ```java
+  public static void segregateEvenOdd(List<Integer> numbers){
+      numbers.sort(new IntCompare());
+  }
+
+  public class IntCompare implements Comparator<Integer> {
+      public Integer compare(Integer i1, Integer i2) {
+          if (Math.mod(i1, 2) == 0) {
+              if (Math.mod(i2, 2) == 0) return 0;
+              return -1;
+          }
+          if (Math.mod(i2, 2) != 0) return 0;
+          return 1;
+      }
+  }
+  ```
+
+### #88 - Balanced Parentheses
+
+- Problem
+
+  ```text
+  Given a String s containing only the six characters '(', '{', '[', ']', '}', and ')', return true only if every opening bracket has a matching closing bracket of the same type, and all brackets are closed in the correct order.
+  ```
+
+- Solution
+
+  ```java
+  public Boolean isValid(String s){
+      List<Integer> stack = new List<Integer>();
+      for (Integer c: s.getChars()) {
+          if (c == 40 ||  c == 91 || c == 123) stack.add(c);
+          else {
+              if (stack.size() == 0) return false;
+              Integer lastSign = stack[stack.size() - 1];
+              stack.remove(stack.size() - 1);
+              if (c == 41 && lastSign != 40) return false;
+              if (c == 93 && lastSign != 91) return false;
+              if (c == 125 && lastSign != 123) return false;
+          }
+      }
+      return stack.size() == 0;
+  }
+  ```
+
+### #107 - Defragging
+
+- Problem
+
+  ```text
+  You are given a List of Integers which represents memory with -1 representing empty space and all other Integers representing. Your task is to move all the empty spaces to the end of the list while maintaining the order of the rest of the elements.
+  ```
+
+- Solution
+
+  ```java
+  public void defragging(Integer[] memory)
+  {
+      Integer l = 0;
+      Integer r = 1;
+      while (l < memory.size() && r < memory.size()) {
+          if (memory[r] == -1) {
+              r++;
+              continue;
+          }
+          if (memory[l] == -1) {
+              Integer t = memory[l];
+              memory[l] = memory[r];
+              memory[r] = t;
+          }
+          l++;
+      }
+  }
+  ```
+
+### #108 - Two Sum
+
+- Problem
+
+  ```text
+  You are given a list of unsorted integers and a target value. If the list contains two values that add up to target, return a list containing the indexes of the two numbers. You may not use a number more than once. Every input will have a solution.
+
+  Tests will include lists of up to 10,000 members. Only solutions that run in linear time will pass.
+  ```
+
+- Solution
+
+  ```java
+  public static List<Integer> twoSum(List<Integer> nums, Integer target) {
+      Map<Integer, Integer> m = new Map<Integer, Integer>();
+      List<Integer> res = new List<Integer>();
+      for (Integer i = 0; i < nums.size(); i++) {
+          Integer n = target - nums[i];
+          if (!m.containsKey(n)) {
+              m.put(nums[i], i);
+          } else {
+              res.add(m.get(n));
+              res.add(i);
+              break;
+          }
+      }
+      return res;
+  }
+  ```
+
+### #110 - Maximum Sub-array
+
+- Problem
+
+  ```text
+  Given a list of Integers that can contain positive and negative values and an Integer target, calculate the maximum subarray of the length of the target.
+  ```
+
+- Solution
+
+  ```java
+  public static Integer maxSubArraySum(List<Integer> nums, Integer target){
+      if (nums.size() < target) return null;
+      List<Integer> sums = new List<Integer>();
+      sums.add(nums[0]);
+      for (Integer i = 1; i < nums.size(); i++) {
+          sums.add(sums[i - 1] + nums[i]);
+      }
+      Integer res = sums[target - 1];
+      for (Integer i = target; i < sums.size(); i++) {
+          res = Math.max(res, sums[i] - sums[i -  target]);
+      }
+      return res;
+  }
+  ```
+
+### #109 - Two Sum II
+
+- Problem
+
+  ```text
+  Given a list of integers that are sorted in ascending order, return the indices of the two numbers that add up to a target value.
+
+  Constraints:
+
+  Each problem will have only one solution if any. You may return null or an empty list of no solution is found.
+  You should attempt to solve this in constant space and linear run-time. This means a solution using nested loops or a Map will not work.
+  Inputs can contain up two 10,000 values
+  ```
+
+- Solution
+
+  ```java
+  public List<Integer> twoSum(List<Integer> nums, Integer target){
+      Integer l = 0, r = nums.size() - 1;
+      Integer m;
+      List<Integer> res = new List<Integer>();
+      while (l < r) {
+          if (nums[r] > target) {
+              r--;
+              continue;
+          }
+          if (nums[l] + nums[r] == target) {
+              res.add(l);
+              res.add(r);
+              return res;
+          }
+          if (nums[l] + nums[r] > target) r--;
+          else l++;
+      }
+      return null;
+  }
+  ```
+
+### #123 - Count-and-say the Sequence
+
+- Problem
+
+  ```text
+  Can you count and say what characters the string '11121' has?
+
+  It has three '1' characters, followed by one '2', and finally one '1'. Or to put it another way, it has 3 1s, 1 2s and 1 1, which we could write as the string '311211'. For this problem, we define this transformation as "counting and saying". Counting and saying '11121' is '311211'.
+
+  For this problem, you have to generate a sequence given an Integer N. We define base case for N = 1 as '1'. For N > 1, count and say the sequence generated by N - 1.
+  ```
+
+- Solution
+
+  ```java
+  public string countAndSay(integer N) {
+      if (n == 1) return '1';
+      String previous = countAndSay(n - 1);
+      Integer count = 0;
+      List<String> res = new List<String>();
+      List<String> chars = previous.split('');
+      chars.add(null);
+      for (Integer i = 0; i < chars.size(); i++) {
+          if (i > 0 && chars[i] != chars[i - 1]) {
+              res.add(String.valueOf(count));
+              res.add(chars[i - 1]);
+              count = 0;
+          }
+          count++;
+      }
+      return String.join(res, '');
+  }
+  ```
+
+### #118 - Find Common Characters
+
+- Problem
+
+  ```text
+  Given list of strings: strs, implement a method that will return all the common characters in the list. The character should be repeated in the list according the minimum frequency that it occurs in the list. The input will only consist of lower case letters in the English alphabet.
+  ```
+
+- Solution
+
+  ```java
+  public List<String> commonChars(List<String> strs){
+      Map<String, List<Integer>> freq = new Map<String, List<Integer>>();
+      for (Integer i = 0; i < strs.size(); i++) {
+          String s = strs[i];
+          for (String c: s.split('')) {
+              if (!freq.containsKey(c)) {
+                  List<Integer> emptyList = new List<Integer>();
+                  for (Integer j = 0; j < strs.size(); j++) emptyList.add(0);
+                  freq.put(c, emptyList);
+              }
+              freq.get(c)[i] += 1;
+          }
+      }
+      List<String> res = new List<String>();
+      for (String key: freq.keySet()) {
+          List<Integer> f = freq.get(key);
+          Integer min = f[0];
+          for (Integer i = 1; i < f.size(); i++) min = Math.min(min, f[i]);
+          for (Integer i = 0;  i < min; i++) res.add(key);
+      }
+      res.sort();
+      return res;
+  }
+  ```
+
+### #116 - Longest Substring With Max K Distinct Characters
+
+- Problem
+
+  ```text
+  Given a string str and an Integer k, return the size of the largest substring of str consisting of k distinct characters
+  ```
+
+- Solution
+
+  ```java
+  public static Integer longestDistinctSubstring(String str, Integer k){
+      List<String> chars = str.split('');
+      Map<String, Integer> freq = new Map<String, Integer>();
+      Integer windowStart = 0;
+      Integer maxLength = 0;
+
+      for (Integer windowEnd = 0; windowEnd < chars.size(); windowEnd++) {
+          String rightChar = chars[windowEnd];
+          freq.put(rightChar, (freq.get(rightChar) == null ? 0 : freq.get(rightChar)) + 1);
+          while (freq.keySet().size() > k) {
+              String leftChar = chars[windowStart];
+              freq.put(leftChar, freq.get(leftChar) - 1);
+              if (freq.get(leftChar) == 0) freq.remove(leftChar);
+              windowStart += 1;
+          }
+          maxLength = Math.max(maxLength, windowEnd - windowStart + 1);
+      }
+      return maxLength;
+  }
+  ```
+
+### #122 - Same String
+
+- Problem
+
+  ```text
+  Given two strings containing backspaces identified with '#', return true if the strings are the same after applying the backspaces.
+  ```
+
+- Solution
+
+  ```java
+  public static Boolean sameString(String str1, String str2){
+      List<String> stack1 = new List<String>();
+      List<String> stack2 = new List<String>();
+      for (String c: str1.split('')) {
+          if (c == '') continue;
+          if (stack1.size() != 0) {
+              if (c == '#') {
+                  stack1.remove(stack1.size() - 1);
+                  continue;
+              }
+          } else if (c == '#') continue;
+          stack1.add(c);
+      }
+      for (String c: str2.split('')) {
+          if (c == '') continue;
+          if (stack2.size() != 0) {
+              if (c == '#') {
+                  stack2.remove(stack2.size() - 1);
+                  continue;
+              }
+          } else if (c == '#') continue;
+          stack2.add(c);
+      }
+      if (stack1.size() == 0 && stack2.size() == 0) return true;
+      return stack1 == stack2;
+  }
+  ```
